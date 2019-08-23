@@ -1,10 +1,8 @@
 package com.portfolio.api.controllers;
 
-import com.portfolio.api.models.entity.Blog;
-import com.portfolio.api.models.entity.Tag;
-import com.portfolio.api.models.service.BlogeableService;
 
-import com.portfolio.api.models.service.TageableService;
+import com.portfolio.api.models.entity.Post;
+import com.portfolio.api.models.service.PosteableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,28 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
-@RequestMapping("/apiblog")
+@RequestMapping("/api")
 public class BlogRestController {
 
-
     @Autowired
-    private BlogeableService blogService;
+    private PosteableService postService;
 
-    @Autowired
-    private TageableService tagService;
-
-    @GetMapping("/blog")
-    public List<Blog> indexBlog() {
-
-        return blogService.findAll();
+    @GetMapping("/post")
+    public List<Post> getAllpost(){
+        return postService.findAllPost();
     }
-
-    @GetMapping("/tags")
-    public List<Tag> indexTag() {
-        return tagService.findAll();
-    }
-
-
 }

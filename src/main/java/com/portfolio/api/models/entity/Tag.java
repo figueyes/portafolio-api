@@ -1,8 +1,12 @@
 package com.portfolio.api.models.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="tags")
@@ -14,10 +18,15 @@ public class Tag implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String categoria;
-
-    @Column(nullable = false)
     private String tag;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags")
+    private Set<Post> posts;
+
+    public Tag() {
+        posts = new HashSet<Post>();
+    }
 
     public Long getId() {
         return id;
@@ -27,19 +36,19 @@ public class Tag implements Serializable {
         this.id = id;
     }
 
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public String getTag() {
         return tag;
     }
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public Set<Post> getBlogs() {
+        return posts;
+    }
+
+    public void setBlogs(Set<Post> posts) {
+        this.posts = posts;
     }
 }

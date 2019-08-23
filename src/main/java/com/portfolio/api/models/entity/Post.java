@@ -1,14 +1,21 @@
 package com.portfolio.api.models.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.*;
 
 @Entity
-@Table(name="blogs")
-public class Blog implements Serializable {
+@Table(name="posts")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Post implements Serializable {
 
 
     private static final long serialVersionUID = 479799998135563720L;
@@ -27,12 +34,12 @@ public class Blog implements Serializable {
 
     @NotEmpty(message="no puede estar vacío")
     @Column(nullable = false)
-    private String autor;
+    private String author;
 
     @Lob
     @NotEmpty(message="no puede estar vacío")
-    @Column(nullable = false)
-    private String post;
+    @Column(name = "text_body", nullable = false)
+    private String textBody;
 
     private String photo;
 
@@ -46,15 +53,19 @@ public class Blog implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date updateAt;
 
+    @Column(nullable = false)
+    private String categoria;
 
-    @OneToMany(mappedBy = "tag",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ItemTag> items;
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "tags_post",
+    joinColumns = {@JoinColumn (name = "id_post")},
+    inverseJoinColumns = {@JoinColumn (name = "id_tag")})
+    private Set<Tag> tags;
 
-
-    public Blog() {
-        this.items = new ArrayList<ItemTag>();
+    public Post() {
+        tags = new HashSet<Tag>();
     }
-
 
     public Long getId() {
         return id;
@@ -80,20 +91,20 @@ public class Blog implements Serializable {
         this.subtitle = subtitle;
     }
 
-    public String getAutor() {
-        return autor;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public String getPost() {
-        return post;
+    public String getTextBody() {
+        return textBody;
     }
 
-    public void setPost(String post) {
-        this.post = post;
+    public void setTextBody(String textBody) {
+        this.textBody = textBody;
     }
 
     public String getPhoto() {
@@ -120,15 +131,19 @@ public class Blog implements Serializable {
         this.updateAt = updateAt;
     }
 
-    public List<ItemTag> getItems() {
-        return items;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setItems(List<ItemTag> items) {
-        this.items = items;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
-    public void addItemTag(ItemTag itemTag){
-        this.items.add(itemTag);
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 }
