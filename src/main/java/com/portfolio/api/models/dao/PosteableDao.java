@@ -1,12 +1,11 @@
 package com.portfolio.api.models.dao;
 
 import com.portfolio.api.models.entity.Post;
-import com.portfolio.api.models.entity.Tag;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
+public interface PosteableDao extends CrudRepository<Post,Long>, PagingAndSortingRepository<Post,Long> {
 
-public interface PosteableDao extends CrudRepository<Post,Long>{
 
 
 }

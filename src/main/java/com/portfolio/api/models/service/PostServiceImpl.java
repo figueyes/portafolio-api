@@ -16,11 +16,16 @@ public class PostServiceImpl implements PosteableService {
     @Autowired
     private PosteableDao postDao;
 
+    @Autowired
+    private TageableDao tagDao;
+
     @Override
     @Transactional(readOnly = true)
     public List<Post> findAllPost() {
         return (List<Post>) postDao.findAll();
     }
+
+
 
     @Override
     public Post save(Post post) {
