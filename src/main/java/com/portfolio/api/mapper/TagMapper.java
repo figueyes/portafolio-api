@@ -12,8 +12,7 @@ public interface TagMapper {
     @Select("   SELECT *" +
             "   FROM tag")
     @Results({@Result(column = "id_tag", property = "idTag"),
-              @Result(column = "tag", property = "tag"),
-              @Result(column = "category_tag", property = "categoryTag")})
+              @Result(column = "tag", property = "tag")})
     public List<Tag>getTags();
 
     @Select("   SELECT " +
@@ -30,21 +29,18 @@ public interface TagMapper {
             "   WHERE tag = #{tag}")
     @Results({
             @Result(column = "id_tag", property = "idTag"),
-            @Result(column = "tag", property = "idTag"),
-            @Result(column = "category_tag", property = "idTag")
+            @Result(column = "tag", property = "tag")
     })
     public Tag getTagByTag(@Param("tag") String tag);
 
-    @Select("   SELECT " +
-            "   category_tag" +
-            "   FROM tag" +
-            "   WHERE id_tag = #{id}")
-    @Results(@Result(column = "category_tag", property = "categoryTag"))
-    public String getCategoryTag(@Param("id") Long id);
+    @Insert("   INSERT INTO tag (tag) VALUES " +
+            "   tag = #{tag}")
+    public Boolean insertTag(Tag tag);
 
-    @Insert("   INSERT INTO tag (tag, category_tag) VALUES " +
-            "   #{tag}, #{category}" +
-            "   category_tag = #{post.category}")
-    public Boolean insertTag(@Param("tag") String tag, @Param("category") Post post);
+    @Insert("   INSERT INTO post_tag" +
+            "   (id_post, id_tag) " +
+            "   VALUES" +
+            "   (#{idPost}, #{idTag})")
+    public Boolean addTagPost(Long idPost, Long idTag);
 
 }

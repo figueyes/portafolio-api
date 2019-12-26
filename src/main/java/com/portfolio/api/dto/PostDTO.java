@@ -1,14 +1,18 @@
-package com.portfolio.api.domain;
+package com.portfolio.api.dto;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
-public class Post {
+public class PostDTO {
 
     private Long idPost;
     private String title;
     private String subtitle;
     private String bodyText;
     private String photos;
+    private List<String> tags;
+    private String author;
+    private String category;
     private Date createdAt;
     private Date updatedAt;
 
@@ -16,8 +20,8 @@ public class Post {
         return idPost;
     }
 
-    public void setIdPost(Long id) {
-        this.idPost = id;
+    public void setIdPost(Long idPost) {
+        this.idPost = idPost;
     }
 
     public String getTitle() {
@@ -44,12 +48,36 @@ public class Post {
         this.bodyText = bodyText;
     }
 
-    public String getPhoto() {
+    public String getPhotos() {
         return photos;
     }
 
-    public void setPhoto(String photo) {
-        this.photos = photo;
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Date getCreatedAt() {
@@ -66,18 +94,5 @@ public class Post {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "idPost=" + idPost +
-                ", title='" + title + '\'' +
-                ", subtitle='" + subtitle + '\'' +
-                ", bodyText='" + bodyText + '\'' +
-                ", photo='" + photos + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
     }
 }

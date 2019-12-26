@@ -8,7 +8,7 @@ import java.util.List;
 public interface TagService {
 
     List<Tag> findAllTags();
-
-    Boolean insertTagInPost(Post post, String tag);
-    Tag getTagByTag(String tag);
+    Tag findByTag(String tag);
+    Boolean createTag(Tag tag);
+    Boolean addTagToPost(Long idPost, Long idTag);
 }

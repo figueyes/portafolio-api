@@ -13,8 +13,6 @@ public interface PostMapper {
             @Result(column = "id_post", property = "idPost"),
             @Result(column = "title", property = "title"),
             @Result(column = "subtitle", property = "subtitle"),
-            @Result(column = "author", property = "author"),
-            @Result(column = "category", property = "category"),
             @Result(column = "body_text", property = "bodyText"),
             @Result(column = "createdat", property = "createdAt"),
             @Result(column = "updatedat", property = "updatedAt"),
@@ -29,8 +27,6 @@ public interface PostMapper {
             @Result(column = "id_post", property = "idPost"),
             @Result(column = "title", property = "title"),
             @Result(column = "subtitle", property = "subtitle"),
-            @Result(column = "author", property = "author"),
-            @Result(column = "category", property = "category"),
             @Result(column = "body_text", property = "bodyText"),
             @Result(column = "createdat", property = "createdAt"),
             @Result(column = "updatedat", property = "updatedAt"),
@@ -49,8 +45,6 @@ public interface PostMapper {
             @Result(column = "id_post", property = "idPost"),
             @Result(column = "title", property = "title"),
             @Result(column = "subtitle", property = "subtitle"),
-            @Result(column = "author", property = "author"),
-            @Result(column = "category", property = "category"),
             @Result(column = "body_text", property = "bodyText"),
             @Result(column = "createdat", property = "createdAt"),
             @Result(column = "updatedat", property = "updatedAt"),
@@ -59,13 +53,11 @@ public interface PostMapper {
     public Post getPostByTag(@Param("tag") String tag);
 
     @Insert("    INSERT INTO post " +
-            "    (title, subtitle, author, category, body_text, " +
+            "    (title, subtitle, author, body_text, " +
             "    createdat, updatedat, photos) " +
             "    VALUES (" +
             "    #{post.title}, " +
             "    #{post.subtitle}, " +
-            "    #{post.author}, " +
-            "    #{post.category}, " +
             "    #{post.bodyText}, " +
             "    now(), " +
             "    now(), " +
@@ -75,8 +67,6 @@ public interface PostMapper {
     @Update("   UPDATE post " +
             "   SET title = #{post.title}," +
             "   SET subtitle = #{post.subtitle}," +
-            "   SET author = #{post.author}," +
-            "   SET category = #{post.category}," +
             "   SET body_text = #{post.bodyText}," +
             "   SET createdat = #{post.createdAt}," +
             "   SET updatedat = now()," +
