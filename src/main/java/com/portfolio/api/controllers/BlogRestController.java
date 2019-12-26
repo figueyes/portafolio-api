@@ -1,13 +1,11 @@
 package com.portfolio.api.controllers;
 
 
-import com.portfolio.api.models.entity.Post;
-import com.portfolio.api.models.service.PosteableService;
+import com.portfolio.api.domain.Post;
+import com.portfolio.api.request.PostRequest;
+import com.portfolio.api.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,10 +16,25 @@ import java.util.List;
 public class BlogRestController {
 
     @Autowired
-    private PosteableService postService;
+    private PostService postService;
 
-    @GetMapping("/post")
+    @PostMapping("/posts")
     public List<Post> getAllpost(){
         return postService.findAllPost();
+    }
+
+    @PostMapping("/post/{id}")
+    public Post showPost(@PathVariable Long id){
+        return postService.findPostById(id);
+    }
+
+    @PostMapping("/post/showbytag/{tag}")
+    public Post showPostByTag(@PathVariable String tag){
+        return postService.getPostByTag(tag);
+    }
+
+    @PostMapping("/post/create")
+    public Boolean createPost(@RequestBody PostRequest postRequest){
+        return postService.createPost(postRequest.getPost(), postRequest.getTags());
     }
 }

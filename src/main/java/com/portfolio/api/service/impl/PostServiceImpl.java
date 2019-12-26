@@ -1,9 +1,10 @@
-package com.portfolio.api.models.service;
+package com.portfolio.api.service;
 
-import com.portfolio.api.models.dao.PosteableDao;
-import com.portfolio.api.models.dao.TageableDao;
-import com.portfolio.api.models.entity.Post;
-import com.portfolio.api.models.entity.Tag;
+import com.portfolio.api.dao.PosteableDao;
+import com.portfolio.api.dao.TageableDao;
+import com.portfolio.api.domain.Post;
+import com.portfolio.api.mapper.PostMapper;
+import com.portfolio.api.mapper.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,31 +15,29 @@ import java.util.List;
 public class PostServiceImpl implements PosteableService {
 
     @Autowired
-    private PosteableDao postDao;
+    private PostMapper postMapper;
 
     @Autowired
-    private TageableDao tagDao;
+    private TagMapper tagMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Post> findAllPost() {
-        return (List<Post>) postDao.findAll();
+        return postMapper.getAllPost();
     }
-
 
 
     @Override
     public Post save(Post post) {
-        return postDao.save(post);
+        return postMapper.save(post);
     }
 
     @Override
     public void updatePost(Post post) {
-        postDao.save(post);
+        postMapper.save(post);
     }
 
     @Override
     public void deletePostById(Long id) {
-        postDao.deleteById(id);
+        postMapper.deleteById(id);
     }
 }
