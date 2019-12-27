@@ -11,7 +11,7 @@ public interface AuthorMapper {
     @Insert("   INSERT INTO AUTHOR " +
             "   (author, name, surname, description, createdat, updatedat)" +
             "   VALUES " +
-            "   (#{author}, #{name}, #{surname}, #{description}, #{createdat}, #{updatedat})")
+            "   (#{author}, #{name}, #{surname}, #{description}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "idAuthor", keyColumn = "id_author")
     public Boolean createAuthor(Author author);
 
@@ -21,8 +21,8 @@ public interface AuthorMapper {
             "   name =  #{name}" +
             "   surname = #{surname}" +
             "   description = #{description}" +
-            "   createdat = #{createdat}" +
-            "   updatedat = #{updatedat}" +
+            "   createdat = #{createdAt}" +
+            "   updatedat = NOW()" +
             "   WHERE id_author = #{idAuthor}")
     public Author updateAuthor(Author author);
 

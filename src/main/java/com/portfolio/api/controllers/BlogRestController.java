@@ -20,7 +20,7 @@ public class BlogRestController {
 
     @PostMapping("/posts")
     public List<Post> getAllpost(){
-        return postService.findAllPost();
+        return postService.listAllPost();
     }
 
     @PostMapping("/post/{id}")
@@ -30,11 +30,11 @@ public class BlogRestController {
 
     @PostMapping("/post/showbytag/{tag}")
     public Post showPostByTag(@PathVariable String tag){
-        return postService.getPostByTag(tag);
+        return postService.findPostByTag(tag);
     }
 
     @PostMapping("/post/create")
     public Boolean createPost(@RequestBody PostRequest postRequest){
-        return postService.createPost(postRequest.getPost(), postRequest.getTags());
+        return postService.createPost(postRequest);
     }
 }

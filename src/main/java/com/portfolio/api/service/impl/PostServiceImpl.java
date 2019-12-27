@@ -2,6 +2,7 @@ package com.portfolio.api.service.impl;
 
 import com.portfolio.api.domain.Author;
 import com.portfolio.api.domain.Post;
+import com.portfolio.api.domain.Tag;
 import com.portfolio.api.mapper.PostMapper;
 import com.portfolio.api.request.PostRequest;
 import com.portfolio.api.service.AuthorService;
@@ -26,20 +27,34 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Boolean createPost(PostRequest postRequest) {
-
-        boolean postCreated = postMapper.insertPost(postRequest.getPost());
         Post post = postRequest.getPost();
+        boolean postCreated = postMapper.insertPost(post);
+        boolean isCreated = false;
+
         List<String> tags = postRequest.getTags();
         Author author = authorService.findbyAuthor(postRequest.getAuthor());
 
         if(postCreated){
-            authorService.addAuthorToPost(post.getIdPost(),author.getIdAuthor());
-            tags.stream()
-                    .map(tag -> tagService.findByTag(tag))
-                    .forEach(tag-> tagService.addTagToPost(post.getIdPost(),tag.getIdTag()));
-            return true;
+            authorService.addAuthorToPost(
+                    post.getIdPost(),
+                    author.getIdAuthor());
+
+            for (String tag : tags){
+                if (tagService.findByTag(tag) != null &&
+                    tagService.addTagToPost(post.getIdPost(), tagService.findByTag(tag).getIdTag())){
+                    isCreated = true;
+                }
+                else {
+                    Tag newTag = new Tag();
+                    newTag.setTag(tag);
+                    tagService.createTag(newTag);
+                    if (tagService.addTagToPost(post.getIdPost(), tagService.findByTag(tag).getIdTag())){
+                        isCreated = true;
+                    }
+                }
+            }
         }
-        return false;
+        return isCreated;
     }
 
     @Override

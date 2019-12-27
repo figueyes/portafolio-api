@@ -1,10 +1,13 @@
 package com.portfolio.api.domain;
 
+import java.util.Date;
+
 public class Category {
 
     private Long idCategory;
     private String Category;
-    private Long idPost;
+    private Date createdat;
+    private Date updatedat;
 
     public Long getIdCategory() {
         return idCategory;
@@ -22,12 +25,20 @@ public class Category {
         Category = category;
     }
 
-    public Long getIdPost() {
-        return idPost;
+    public Date getCreatedat() {
+        return createdat;
     }
 
-    public void setIdPost(Long idPost) {
-        this.idPost = idPost;
+    public void setCreatedat(Date createdat) {
+        this.createdat = createdat;
+    }
+
+    public Date getUpdatedat() {
+        return updatedat;
+    }
+
+    public void setUpdatedat(Date updatedat) {
+        this.updatedat = updatedat;
     }
 
     @Override
@@ -35,7 +46,8 @@ public class Category {
         return "Category{" +
                 "idCategory=" + idCategory +
                 ", Category='" + Category + '\'' +
-                ", idPost=" + idPost +
+                ", createdat=" + createdat +
+                ", updatedat=" + updatedat +
                 '}';
     }
 }

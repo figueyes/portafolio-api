@@ -53,15 +53,16 @@ public interface PostMapper {
     public Post getPostByTag(@Param("tag") String tag);
 
     @Insert("    INSERT INTO post " +
-            "    (title, subtitle, author, body_text, " +
+            "    (title, subtitle, body_text, " +
             "    createdat, updatedat, photos) " +
             "    VALUES (" +
             "    #{post.title}, " +
             "    #{post.subtitle}, " +
             "    #{post.bodyText}, " +
-            "    now(), " +
-            "    now(), " +
+            "    NOW(), " +
+            "    NOW(), " +
             "    #{post.photos})")
+    @Options(useGeneratedKeys = true, keyProperty = "idPost", keyColumn = "id_post")
     public Boolean insertPost(@Param("post") Post post);
 
     @Update("   UPDATE post " +
@@ -69,7 +70,7 @@ public interface PostMapper {
             "   SET subtitle = #{post.subtitle}," +
             "   SET body_text = #{post.bodyText}," +
             "   SET createdat = #{post.createdAt}," +
-            "   SET updatedat = now()," +
+            "   SET updatedat = NOW()," +
             "   SET photos = #{post.photos}" )
     public Boolean updatePost(@Param("post") Post post);
 
