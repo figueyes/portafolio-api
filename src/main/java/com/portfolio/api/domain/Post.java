@@ -1,83 +1,114 @@
 package com.portfolio.api.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
+@Getter
+@Setter
+@Entity
+@Table(name = "posts")
 public class Post {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_post")
     private Long idPost;
+
+    @NotEmpty
+    @Column(length = 200)
     private String title;
+
+    @NotEmpty
+    @Column(length = 200)
     private String subtitle;
-    private String bodyText;
-    private String photos;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_author")
+    private Author author;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "post_category",
+            joinColumns = {@JoinColumn(name = "id_post")},
+            inverseJoinColumns = {@JoinColumn(name = "id_category")})
+    private List<Category> categories;
+
+    @OneToMany(mappedBy = "post")
+    private List<Body> bodies;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "post_tag",
+            joinColumns = {@JoinColumn(name = "id_post")},
+            inverseJoinColumns = {@JoinColumn(name = "id_tag")})
+    private List<Tag> tags;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "post_photo",
+            joinColumns = {@JoinColumn(name = "id_post")},
+            inverseJoinColumns = {@JoinColumn(name = "id_photo")})
+    private List<Photo> photos;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_review")
+    private Review review;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    public Long getIdPost() {
-        return idPost;
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = new Date();
     }
 
-    public void setIdPost(Long id) {
-        this.idPost = id;
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = new Date();
     }
 
-    public String getTitle() {
-        return title;
+    public Post() {
+        this.categories = new ArrayList<>();
+        this.bodies = new ArrayList<>();
+        this.tags = new ArrayList<>();
+        this.photos = new ArrayList<>();
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void addCategory(Category category) {
+        this.categories.add(category);
     }
 
-    public String getSubtitle() {
-        return subtitle;
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
     }
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+    public void addBody(Body body) {
+        this.bodies.add(body);
     }
 
-    public String getBodyText() {
-        return bodyText;
+    public void removeBody(Body body) {
+        this.bodies.remove(body);
     }
 
-    public void setBodyText(String bodyText) {
-        this.bodyText = bodyText;
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
     }
 
-    public String getPhoto() {
-        return photos;
+    public void removeTag(Tag tag) {
+        this.tags.remove(tag);
     }
 
-    public void setPhoto(String photo) {
-        this.photos = photo;
+    public void addPhoto(Photo photo) {
+        this.photos.add(photo);
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "idPost=" + idPost +
-                ", title='" + title + '\'' +
-                ", subtitle='" + subtitle + '\'' +
-                ", bodyText='" + bodyText + '\'' +
-                ", photo='" + photos + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+    public void removePhoto(Photo photo) {
+        this.photos.remove(photo);
     }
 }

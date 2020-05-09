@@ -12,20 +12,26 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "tags")
-public class Tag {
+@Table(name = "reviews")
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_tag")
-    private Long idTag;
+    @Column(name = "id_review")
+    private Long idReview;
 
     @NotEmpty
-    @Column(length = 50)
-    private String tag;
+    @Lob
+    private String review;
 
-    @ManyToMany(mappedBy = "tags")
-    private List<Post> posts;
+    @OneToOne(mappedBy = "review",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Post post;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_photo")
+    private Photo photo;
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -45,15 +51,4 @@ public class Tag {
         this.updatedAt = new Date();
     }
 
-    public Tag() {
-        this.posts = new ArrayList<>();
-    }
-
-    public void addPost(Post post) {
-        this.posts.add(post);
-    }
-
-    public void removePost(Post post) {
-        this.posts.remove(post);
-    }
 }

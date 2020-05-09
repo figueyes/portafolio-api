@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,20 +11,27 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "tags")
-public class Tag {
+@Table(name = "photos")
+public class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_tag")
-    private Long idTag;
+    @Column(name = "id_photo")
+    private Long idPhoto;
 
-    @NotEmpty
-    @Column(length = 50)
-    private String tag;
+    @Column(name = "url_photo")
+    private String urlPhoto;
 
-    @ManyToMany(mappedBy = "tags")
+    private Boolean isAvatar;
+
+    @ManyToMany(mappedBy = "photos",
+            cascade = CascadeType.ALL)
     private List<Post> posts;
+
+    @OneToOne(mappedBy = "photo",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Review review;
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -45,7 +51,7 @@ public class Tag {
         this.updatedAt = new Date();
     }
 
-    public Tag() {
+    public Photo() {
         this.posts = new ArrayList<>();
     }
 

@@ -4,28 +4,31 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "tags")
-public class Tag {
+@Table(name = "bodies")
+public class Body {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_tag")
-    private Long idTag;
+    @Column(name = "id_body")
+    private Long idBody;
 
-    @NotEmpty
-    @Column(length = 50)
-    private String tag;
+    @Column(name = "body_text")
+    @Lob
+    private String bodyText;
 
-    @ManyToMany(mappedBy = "tags")
-    private List<Post> posts;
+    @NotNull
+    @Column(length = 2)
+    private Integer ordering;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_post")
+    private Post post;
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -45,15 +48,4 @@ public class Tag {
         this.updatedAt = new Date();
     }
 
-    public Tag() {
-        this.posts = new ArrayList<>();
-    }
-
-    public void addPost(Post post) {
-        this.posts.add(post);
-    }
-
-    public void removePost(Post post) {
-        this.posts.remove(post);
-    }
 }
