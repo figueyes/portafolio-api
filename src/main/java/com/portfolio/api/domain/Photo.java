@@ -1,5 +1,6 @@
 package com.portfolio.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "photos")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "posts"})
 public class Photo {
 
     @Id

@@ -1,5 +1,6 @@
 package com.portfolio.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,11 +37,13 @@ public class Author {
     @Column(length = 100)
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     List<Post> posts;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "author",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
